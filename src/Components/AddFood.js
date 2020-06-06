@@ -4,23 +4,23 @@ class AddMovie extends React.Component {
 
     state = {
       name: "",
-      calories: "",
+      calories:0,
       id: String(Math.random())
     }
 
-    nameChangeHandler = (event) => {
-        let currentInputValue = event.target.value
-        this.setState({
-            name: currentInputValue
-          })
-    }
 
-    caloriesChangeHandler = (event) => {
-        let currentInputValue = event.target.value
-        this.setState({
-            calories: currentInputValue
-          })
-    }  
+    changeHandler = (event) => {
+      let currentInputValue = event.target.value
+      let inputName = event.target.name
+
+      // let obj = {}
+      // obj[inputName] = currentInputValue  //{ calories: 999}
+      // this.setState(obj);
+
+      this.setState({
+        [inputName] : currentInputValue
+        })
+  }
 
     formSubmitHandler = (event) => {
         // we stop the browser from its normal behaviour 
@@ -30,12 +30,12 @@ class AddMovie extends React.Component {
         let newFood = this.state
     
         // we need to pass an object that looks like { title: "askldjhasd", director: "alkdhlkashj" }
-        this.props.addFoodHandler(newFood) // TODO: pass the newly created movie
+        this.props.addFoodCallBack(newFood) // TODO: pass the newly created movie
     
         // reset to initial (empty) state
         this.setState({
             name: "",
-            calories: "",
+            calories: 0,
             id: String(Math.random())
         })
     
@@ -44,9 +44,9 @@ class AddMovie extends React.Component {
     render() {
         return (
           <div>
-            <form onSubmit={this.formSubmitHandler}>
-              Name: <input name="name" value={this.state.name} onChange={this.nameChangeHandler}></input>
-              Calories: <input name="calories" value={this.state.calories} onChange={this.caloriesChangeHandler}></input>
+            <form onSubmit={this.formSubmitHandler} key={this.state.name}>
+              Name: <input name="name" value={this.state.name} onChange={this.changeHandler}></input>
+              Calories: <input name="calories" type="number" value={this.state.calories} onChange={this.changeHandler}></input>
               <button type="submit">Add Food</button>
             </form>
           </div>
